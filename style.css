@@ -18,3 +18,16 @@
     height: 150px;
     object-fit: contain;
   }
+
+  .pageTitle {
+    text-align: center;
+  }
+
+  #transcriptSection {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  #transcriptSection.show {
+    opacity: 1;
+  }
