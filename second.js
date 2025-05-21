@@ -1,20 +1,34 @@
-function showProductDetails(title, price, description, imageUrl, sizes) {
-  document.getElementById('productModalLabel').innerText = title;
-  document.getElementById('productPrice').innerText = price;
-  document.getElementById('productDescription').innerText = description;
-  document.getElementById('modalProductImage').src = imageUrl;
+// Initialize or retrieve cart count from localStorage
+let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
 
-  const sizeContainer = document.getElementById('productSizes');
-  sizeContainer.innerHTML = ''; // Clear previous sizes
-
-  sizes.forEach(size => {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-outline-secondary';
-    btn.innerText = size;
-    btn.onclick = () => alert(`Selected size: ${size}`);
-    sizeContainer.appendChild(btn);
-  });
-
-  const modal = new bootstrap.Modal(document.getElementById('productModal'));
-  modal.show();
+// Function to update cart number in the navbar
+function updateNavbarCart() {
+  const cartBadge = document.getElementById('cart-count');
+  if (cartBadge) {
+    cartBadge.textContent = cartCount;
+  }
 }
+
+// Function to handle adding item to cart
+function addToCart() {
+  cartCount++;
+  localStorage.setItem('cartCount', cartCount);
+  updateNavbarCart();
+
+  // Optional: Show "added to cart" confirmation if element exists
+  const confirmMessage = document.getElementById('cartConfirm');
+  if (confirmMessage) {
+    confirmMessage.classList.remove('d-none');
+    setTimeout(() => confirmMessage.classList.add('d-none'), 2000);
+  }
+}
+
+// Attach event listener on load
+document.addEventListener('DOMContentLoaded', () => {
+  updateNavbarCart();
+
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', addToCart);
+  });
+});
